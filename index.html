@@ -5,18 +5,79 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Library Dashboard</title>
 <link rel="stylesheet" href="styles.css">
+
 <script>
-document.addEventListener('DOMContentLoaded',()=>{
-  const theme = localStorage.getItem('theme') || 'light';
-  document.body.className = theme;
+document.addEventListener("DOMContentLoaded", () => {
+    const theme = localStorage.getItem("theme") || "light";
+    document.body.className = theme;
+
+    // SAMPLE DATA
+    const user = {
+        name: "Vijay Sankar",
+        email: "sankerpamidimarri@gmail.com",
+        role: "Student",
+        joined: "2024"
+    };
+
+    const uploadedBooks = [
+        { title: "Java Basics", date: "12 Sep 2024" },
+        { title: "Spring Boot Guide", date: "22 Oct 2024" }
+    ];
+
+    const borrowedBooks = [
+        { title: "DSA Handbook", return: "10 Dec 2024" }
+    ];
+
+    const payments = {
+        pending: [
+            { item: "Library Fine", amount: "₹100" }
+        ],
+        approved: [
+            { item: "Membership Fee", amount: "₹500" }
+        ]
+    };
+
+    // FILL USER DETAILS
+    document.getElementById("username").textContent = user.name;
+    document.getElementById("useremail").textContent = user.email;
+    document.getElementById("userrole").textContent = user.role;
+    document.getElementById("userjoined").textContent = user.joined;
+
+    // FILL UPLOADED BOOKS
+    const upList = document.getElementById("uploadedBooks");
+    uploadedBooks.forEach(b => {
+        upList.innerHTML += `<li>${b.title} <span>${b.date}</span></li>`;
+    });
+
+    // FILL BORROWED BOOKS
+    const brList = document.getElementById("borrowedBooks");
+    borrowedBooks.forEach(b => {
+        brList.innerHTML += `<li>${b.title} <span>Return: ${b.return}</span></li>`;
+    });
+
+    // PAYMENTS
+    const pend = document.getElementById("pendingPayments");
+    payments.pending.forEach(p => {
+        pend.innerHTML += `<tr><td>${p.item}</td><td>${p.amount}</td></tr>`;
+    });
+
+    const appr = document.getElementById("approvedPayments");
+    payments.approved.forEach(p => {
+        appr.innerHTML += `<tr><td>${p.item}</td><td>${p.amount}</td></tr>`;
+    });
 });
+
 function setTheme(t){
-  document.body.className = t;
-  localStorage.setItem('theme',t);
+    document.body.className = t;
+    localStorage.setItem("theme", t);
 }
 </script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 </head>
+
 <body>
+
 <nav>
   <h2>Library Management System</h2>
   <ul>
@@ -29,9 +90,120 @@ function setTheme(t){
     <button onclick="setTheme('dark')">🌙 Dark Mode</button>
   </div>
 </nav>
-<main>
-<h1>Dashboard</h1>
-<p>Welcome To The Library Management Dashboard.</p>
-</main>
+
+<div id="leftContent">
+    <h1>Dashboard</h1>
+    <p>Welcome To The Library Management Dashboard.</p>
+
+
+
+     <div class="action-cards">
+    <div class="action-card">
+        <span class="icon">➕</span>
+        <h3>Add Book</h3>
+    </div>
+
+    <div class="action-card">
+        <span class="icon">📚</span>
+        <h3>Borrow Book</h3>
+    </div>
+
+    <div class="action-card">
+        <span class="icon">💰</span>
+        <h3>Do Payment</h3>
+    </div>
+</div>
+
+    <!-- MOVE YOUR CHART CARD HERE -->
+    <div class="card overview-card">
+        <h3>📊 Overview Chart</h3>
+        <canvas id="overviewChart" width="300" height="300"></canvas>
+
+    </div>
+</div>
+
+
+
+
+    <!-- RIGHT SIDE PANEL -->
+    <aside class="right">
+        
+        <div class="card profile">
+            <h3>👤 User Profile</h3>
+            <p><strong>Name:</strong> <span id="username"></span></p>
+            <p><strong>Email:</strong> <span id="useremail"></span></p>
+            <p><strong>Role:</strong> <span id="userrole"></span></p>
+            <p><strong>Joined:</strong> <span id="userjoined"></span></p>
+        </div>
+
+        <div class="card table-card">
+    <h3>📘 Uploaded Books</h3>
+    <table class="payment-table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Category</th>
+                <th>Uploaded Date</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody id="uploadedBooksTable"></tbody>
+    </table>
+</div>
+
+
+        <div class="card table-card ">
+    <h3>📚 Borrowed Books</h3>
+    <table class="payment-table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Issued Date</th>
+                <th>Return Date</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody id="borrowedBooksTable"></tbody>
+    </table>
+</div>
+
+
+        <div class="card table-card">
+    <h3>💰 Payments</h3>
+
+    <!-- Pending Payments -->
+    <h4 class="section-title pending-title ">⏳ Pending Payments</h4>
+    <table class="payment-table">
+        <thead>
+            <tr>
+                <th>Book</th>
+                <th>Amount</th>
+                <th>Date</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody id="pendingPayments"></tbody>
+    </table>
+
+    <!-- Approved Payments -->
+    <h4 class="section-title approved-title">✅ Approved Payments</h4>
+    <table class="payment-table">
+        <thead>
+            <tr>
+                <th>Book</th>
+                <th>Amount</th>
+                <th>Date</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody id="approvedPayments"></tbody>
+    </table>
+</div>
+
+
+    </aside>
+
+</div>
+<script src="book-details.js"></script>
 </body>
 </html>
