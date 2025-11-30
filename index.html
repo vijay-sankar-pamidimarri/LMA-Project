@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Library Dashboard</title>
+<link rel="stylesheet" href="styles.css">
+<script>
+document.addEventListener('DOMContentLoaded',()=>{
+  const theme = localStorage.getItem('theme') || 'light';
+  document.body.className = theme;
+});
+function setTheme(t){
+  document.body.className = t;
+  localStorage.setItem('theme',t);
+}
+</script>
+</head>
+<body>
+<nav>
+  <h2>Library Management System</h2>
+  <ul>
+    <li><a href="index.html">Dashboard</a></li>
+    <li><a href="books.html">Books</a></li>
+    <li><a href="borrowers.html">Borrowers</a></li>
+  </ul>
+  <div class="theme-buttons">
+    <button onclick="setTheme('light')">🌞 Light Mode</button>
+    <button onclick="setTheme('dark')">🌙 Dark Mode</button>
+  </div>
+</nav>
+<main>
+<h1>Dashboard</h1>
+<p>Welcome To The Library Management Dashboard.</p>
+</main>
+</body>
+</html>
